@@ -1,4 +1,4 @@
----
+----
 title: "Roaring Twenties Elections in Ohio"
 author: "Shane DiGiovanna"
 date: "January 30, 2021"
@@ -133,3 +133,6 @@ oh_24_prog_map
 
 ```
 
+## Conclusion
+
+The apparent prosperity of the 1920's ensured Republican political dominance in 1924 & 1928. However, La Follette's challenge in 1924 was a sign of political and economic discontent that would explode with the Great Depression. Although conservatism was the name of the game, Progressives like La Follette laid the groundwork for FDR's landslide in 1932.

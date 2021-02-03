@@ -1,12 +1,9 @@
----
-title: "Roaring Twenties Elections in Ohio"
-author: "Shane DiGiovanna"
-date: "January 30, 2021"
-output: github_document
----
+# TEST
+Is this a new **README**?
+Can I create _multiple_ READMEs?
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```{r setup, include = TRUE}
+
 library(dplyr)
 library(ggplot2)
 library(knitr)
@@ -17,8 +14,9 @@ library(maps)
 library(stringr)
 library(tmap)
 library(sf)
-```
 
+knitr::opts_chunk$set(echo = TRUE)
+```
 # Introduction
 
 The 1920s were a decade characterized by prosperity - earning the moniker "The Roaring Twenties" -, increasing income inequality, and Republican dominance of 
@@ -92,14 +90,14 @@ Now that we have processed and merged our data, we can map it!
 
 First up is the 1924 election that returned Calvin Coolidge to the White House:
 ```{r}
-oh_24_margin_map <- tm_shape(twenties_elect) + tm_polygons("d_r_pres_margin_24", palette = "RdBu", breaks = seq(-50, 50, by = 10),
+tm_shape(twenties_elect) + tm_polygons("d_r_pres_margin_24", palette = "RdBu", breaks = seq(-50, 50, by = 10),
 title = "1924 D/R Margin\n(in Percent)", id = "district", popup.vars = c("Dem/Rep Pres Margin" = "d_r_pres_margin_24", "Dem %" = "per_dem_pres_24", 
     "Rep %" = "per_rep_pres_24")) + tm_view(alpha = 0.6, 
 legend.position = c("right", "bottom")) +
     tm_layout(main.title = "Ohio 1924 Presidential\nParty Margin by County", main.title.position = "center", legend.title.size = 0.9, legend.outside = TRUE) +
     tm_credits(text = "Coolidge won\nOhio by 34.63%\n\nShane DiGiovanna", position = c("left", "bottom"), size = 0.8)
 
-oh_24_margin_map
+
 ```
 
 Republican dominance continued with Herbert Hoovers election in 1928, as shown in this map:
@@ -130,6 +128,4 @@ legend.position = c("right", "bottom")) +
     tm_credits(text = "Progressive\nVote: 17.75%\n\nShane DiGiovanna", position = c("left", "bottom"), size = 0.8)
 
 oh_24_prog_map
-
 ```
-

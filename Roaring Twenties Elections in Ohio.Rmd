@@ -5,8 +5,9 @@ date: "January 30, 2021"
 output: github_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+```{r setup, include = FALSE}
+
 library(dplyr)
 library(ggplot2)
 library(knitr)
@@ -17,7 +18,10 @@ library(maps)
 library(stringr)
 library(tmap)
 library(sf)
+
+knitr::opts_chunk$set(echo = TRUE)
 ```
+
 
 # Introduction
 
@@ -26,16 +30,18 @@ American politics. Today, we will look at the 1924 and 1928 Presidential electio
 
 ## First Step: Downloading and Processing the Data
 
-Data for this time period can be hard to find, so I have attached the county-level election data to my repository. It originally came from [ICPSR](https://www.icpsr.umich.edu/web/pages/),
-and I have done some preliminary processing to make the next steps easier. You can download my pre-processed data [here](https://raw.githubusercontent.com/shanedigiovanna/myrepotest1/main/Ohio%20Coolidge%20Hoover%20elections.csv).
-The county shapefile can be downloaded from [here](https://community.esri.com/t5/arcgis-enterprise-portal/where-can-i-find-a-shapefile-with-all-us-counties-and-fips-code/td-p/307592).
+Data for this time period can be hard to find, so I have attached the county-level election data to my repository. It originally came from [ICPSR] (https://www.icpsr.umich.edu/web/pages/),
+and I have done some preliminary processing to make the next steps easier. 
+The county shapefile can be downloaded from [here] (https://community.esri.com/t5/arcgis-enterprise-portal/where-can-i-find-a-shapefile-with-all-us-counties-and-fips-code/td-p/307592).
 
 We will read in the data:
 
 ```{r data}
-twenties_data <- read_csv("~/Desktop/R Stuff/Ohio Coolidge Hoover elections.csv")
+url_20s = "https://raw.githubusercontent.com/shanedigiovanna/myrepotest1/main/Ohio%20Coolidge%20Hoover%20elections.csv"
+twenties_data <- read_csv(url(url_20s))
 
-county_shp <- st_read("/Users/shanedigiovanna/Downloads/UScounties/UScounties.shp")
+url_counties = "https://github.com/shanedigiovanna/myrepotest1/blob/main/UScounties.shp?raw=true"
+county_shp <- st_read(url(url_counties))
 ```
 
 We need to filter `county_shp` to include only Ohio counties, and adjust the case of the county names in `twenties_data` to match those in `oh_county_shp`:
@@ -52,7 +58,7 @@ twenties_data$COUNTY_NAME <- str_to_title(twenties_data$COUNTY_NAME)
 
 ## Merge the two dataframes
 
-Next, we need to merge the election data, `twenties_data`, with the county shapefile, `oh_county_shp`:
+Next, we need to merge the election data, `twenties_data`, with thye county shapefile, `oh_county_shp`:
 
 ```{r}
 twenties_elect <- full_join(twenties_data, oh_county_shp, by = c("COUNTY_NAME" = "NAME"))
@@ -96,7 +102,7 @@ oh_24_margin_map <- tm_shape(twenties_elect) + tm_polygons("d_r_pres_margin_24",
 title = "1924 D/R Margin\n(in Percent)", id = "district", popup.vars = c("Dem/Rep Pres Margin" = "d_r_pres_margin_24", "Dem %" = "per_dem_pres_24", 
     "Rep %" = "per_rep_pres_24")) + tm_view(alpha = 0.6, 
 legend.position = c("right", "bottom")) +
-    tm_layout(main.title = "Ohio 1924 Presidential\nParty Margin by County", main.title.position = "center", legend.title.size = 0.9, legend.outside = TRUE) +
+    tm_layout(main.title = "Ohio 1924 Presidential Party Margin by County", main.title.position = "center", legend.title.size = 0.9) +
     tm_credits(text = "Coolidge won\nOhio by 34.63%\n\nShane DiGiovanna", position = c("left", "bottom"), size = 0.8)
 
 oh_24_margin_map
@@ -108,7 +114,7 @@ oh_28_margin_map <- tm_shape(twenties_elect) + tm_polygons("d_r_pres_margin_28",
 title = "1928 D/R Margin\n(in Percent)", id = "district", popup.vars = c("Dem/Rep Pres Margin" = "d_r_pres_margin_28", "Dem %" = "per_dem_pres_28", 
     "Rep %" = "per_rep_pres_28")) + tm_view(alpha = 0.6, 
 legend.position = c("right", "bottom")) +
-    tm_layout(main.title = "Ohio 1928 Presidential Party Margin by County", main.title.position = "center", legend.title.size = 0.9, legend.outside = TRUE) +
+    tm_layout(main.title = "Ohio 1928 Presidential Party Margin by County", main.title.position = "center", legend.title.size = 0.9) +
     tm_credits(text = "Hoover won\nOhio by 30.44%\n\nShane DiGiovanna", position = c("left", "bottom"), size = 0.8)
 
 oh_28_margin_map
@@ -126,10 +132,9 @@ La Follette performed well in Ohio, getting 17.75%. He did especially well in in
 oh_24_prog_map <- tm_shape(twenties_elect) + tm_polygons("per_prog_pres_24", palette = "Greens", breaks = seq(0, 25, by = 2.5),
 title = "        Progressive\n  Vote Share\n(in Percent)", id = "district", popup.vars = c("Progressive %" = "per_prog_pres_24")) + tm_view(alpha = 0.6, 
 legend.position = c("right", "bottom")) +
-    tm_layout(main.title = "Ohio Robert La Follette Vote Share in\n1924 Presidential Election", main.title.position = "center", legend.title.size = 0.9, legend.outside = TRUE) +
+    tm_layout(main.title = "Ohio Robert La Follette Vote Share in\n1924 Presidential Election", main.title.position = "center", legend.title.size = 0.9) +
     tm_credits(text = "Progressive\nVote: 17.75%\n\nShane DiGiovanna", position = c("left", "bottom"), size = 0.8)
 
 oh_24_prog_map
-
 ```
 
